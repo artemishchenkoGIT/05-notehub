@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     if (isSuccess && data?.notes.length === 0) {
-      toast.error('No movies found for your request.');
+      toast.error('No notes found for your request.');
     }
   }, [isSuccess, data]);
 
@@ -50,11 +50,7 @@ function App() {
           Create note +
         </button>
       </header>
-      {data?.notes && data.notes.length > 0 ? (
-        <NoteList notes={data.notes} />
-      ) : (
-        <p>Don`t have any notes</p>
-      )}
+      {data?.notes && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {isError && <ErrorMessage error={error} />}
     </div>
   );

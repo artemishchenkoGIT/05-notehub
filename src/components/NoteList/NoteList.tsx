@@ -21,20 +21,24 @@ function NoteList({ notes }: NoteListProps) {
   return (
     <>
       {deleteNoteMutation.isPending && <Loader />}
-      <ul className={css.list}>
-        {notes.map(({ id, title, content, tag }) => (
-          <li className={css.listItem} key={id}>
-            <h2 className={css.title}>{title}</h2>
-            <p className={css.content}>{content}</p>
-            <div className={css.footer}>
-              <span className={css.tag}>{tag}</span>
-              <button className={css.button} onClick={() => handleDelete(id)}>
-                Delete
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      {notes && notes.length > 0 ? (
+        <ul className={css.list}>
+          {notes.map(({ id, title, content, tag }) => (
+            <li className={css.listItem} key={id}>
+              <h2 className={css.title}>{title}</h2>
+              <p className={css.content}>{content}</p>
+              <div className={css.footer}>
+                <span className={css.tag}>{tag}</span>
+                <button className={css.button} onClick={() => handleDelete(id)}>
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Don`t have any notes</p>
+      )}
     </>
   );
 }
