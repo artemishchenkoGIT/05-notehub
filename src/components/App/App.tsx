@@ -9,9 +9,11 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Modal from '../Modal/Modal';
 import NoteForm from '../NoteForm/NoteForm';
 import { useFetchNotes } from '../../hooks/useFetchNotes';
+import { useDebouncedCallback } from 'use-debounce';
 
 function App() {
   const [query, setQuery] = useState<string>('');
+
   const [page, setPage] = useState<number>(1);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -28,6 +30,11 @@ function App() {
 
   const totalPages = data?.totalPages ?? 0;
 
+  const updateQuery = useDebouncedCallback((value: string) => {
+    setQuery(value);
+    setPage(1);
+  }, 300);
+
   return (
     <div className={css.app}>
       <Toaster />
@@ -38,7 +45,7 @@ function App() {
         </Modal>
       )}
       <header className={css.toolbar}>
-        <SearchBox onQueryChange={setQuery} />
+        <SearchBox onQueryChange={updateQuery} />
         {isSuccess && totalPages > 1 && (
           <Pagination
             totalPages={totalPages}
